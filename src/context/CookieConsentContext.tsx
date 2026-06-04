@@ -1,4 +1,11 @@
-import { createContext, type ReactNode, useMemo, useState } from "react";
+import {
+	createContext,
+	type ReactNode,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
+import { getCookie, setCookie } from "../utils/cookie";
 
 export interface CookieConsentContextValue {
 	consent: Record<string, boolean>;
@@ -10,6 +17,7 @@ export interface CookieConsentContextValue {
 	rejectAll: () => void;
 }
 
+const CONSENT_COOKIE = "__clonkie_consent";
 const DEFAULT_PATH = "/";
 const DEFAULT_MAX_AGE = 2592000; // 1 month
 
@@ -40,8 +48,25 @@ export function CookieProvider({ scopes, children }: CookieProviderProps) {
 			...normalized,
 		];
 	}, [scopes]);
-	const [consent, setConsentState] = useState<Record<string, boolean>>({});
-	const [isBannerOpen, setBannerOpen] = useState(true);
+	const [consent, setConsentState] = useState<Record<string, boolean>>(() => {
+		const raw = getCookie(CONSENT_COOKIE);
+		if (raw === undefined) return {};
+		try {
+			return JSON.parse(raw) as Record<string, boolean>;
+		} catch {
+			return {};
+		}
+	});
+	const [isBannerOpen, setBannerOpen] = useState(() => {
+		const raw = getCookie(CONSENT_COOKIE);
+		if (raw === undefined) return true;
+		try {
+			const parsed = JSON.parse(raw);
+			return Object.keys(parsed).length === 0;
+		} catch {
+			return true;
+		}
+	});
 
 	const setConsent = (scope: string, accepted: boolean) => {
 		setConsentState((prev) => ({
@@ -63,6 +88,15 @@ export function CookieProvider({ scopes, children }: CookieProviderProps) {
 		);
 		setBannerOpen(false);
 	};
+
+	useEffect(() => {
+		setCookie(
+			CONSENT_COOKIE,
+			JSON.stringify(consent),
+			DEFAULT_PATH,
+			DEFAULT_MAX_AGE,
+		);
+	}, [consent]);
 
 	return (
 		<CookieConsentContext.Provider
