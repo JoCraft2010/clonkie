@@ -1,2 +1,5 @@
-export type { CookieConsentContextValue } from "./CookieConsentContext";
+export type {
+	CookieConsentContextValue,
+	CookieScope,
+} from "./CookieConsentContext";
 export { CookieConsentContext, CookieProvider } from "./CookieConsentContext";

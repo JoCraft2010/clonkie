@@ -1,3 +1,3 @@
-export type { CookieConsentContextValue } from "./context";
+export type { CookieConsentContextValue, CookieScope } from "./context";
 export { CookieConsentContext, CookieProvider } from "./context";
-export { useConsent, useCookieBanner } from "./hooks";
+export { useConsent, useCookie, useCookieBanner } from "./hooks";
