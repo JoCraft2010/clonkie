@@ -39,7 +39,7 @@ export function useCookie<T>(
 
 	useEffect(() => {
 		if (!hasConsent) {
-			deleteCookie(cookieName, scopeConfig?.path ?? "/");
+			deleteCookie(cookieName, { path: scopeConfig?.path ?? "/" });
 			setValue(undefined);
 			return;
 		}
@@ -50,16 +50,14 @@ export function useCookie<T>(
 		(newValue: T | undefined): boolean => {
 			if (!hasConsent || !scopeConfig) return false;
 			if (newValue === undefined) {
-				deleteCookie(cookieName, scopeConfig.path);
+				deleteCookie(cookieName, { path: scopeConfig.path });
 				setValue(undefined);
 				return true;
 			}
-			setCookie(
-				cookieName,
-				serialize(newValue),
-				scopeConfig.path,
-				scopeConfig.maxAge,
-			);
+			setCookie(cookieName, serialize(newValue), {
+				path: scopeConfig.path,
+				maxAge: scopeConfig.maxAge,
+			});
 			setValue(newValue);
 			return true;
 		},

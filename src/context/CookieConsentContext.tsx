@@ -90,12 +90,10 @@ export function CookieProvider({ scopes, children }: CookieProviderProps) {
 	};
 
 	useEffect(() => {
-		setCookie(
-			CONSENT_COOKIE,
-			JSON.stringify(consent),
-			DEFAULT_PATH,
-			DEFAULT_MAX_AGE,
-		);
+		setCookie(CONSENT_COOKIE, JSON.stringify(consent), {
+			path: DEFAULT_PATH,
+			maxAge: DEFAULT_MAX_AGE,
+		});
 	}, [consent]);
 
 	return (
