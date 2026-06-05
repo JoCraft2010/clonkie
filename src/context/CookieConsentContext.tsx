@@ -1,8 +1,10 @@
 import {
 	createContext,
 	type ReactNode,
+	useCallback,
 	useEffect,
 	useMemo,
+	useRef,
 	useState,
 } from "react";
 import { getCookie, setCookie } from "../utils/cookie";
@@ -15,6 +17,11 @@ export interface CookieConsentContextValue {
 	setBannerOpen: (open: boolean) => void;
 	acceptAll: () => void;
 	rejectAll: () => void;
+	registerOnConsentChange: (
+		cb: (consent: Record<string, boolean>) => void,
+	) => () => void;
+	registerOnAcceptAll: (cb: () => void) => () => void;
+	registerOnRejectAll: (cb: () => void) => () => void;
 }
 
 const CONSENT_COOKIE = "__clonkie_consent";
@@ -89,6 +96,36 @@ export function CookieProvider({ scopes, children }: CookieProviderProps) {
 		}
 	});
 
+	const consentChangeCallbacks = useRef(
+		new Set<(consent: Record<string, boolean>) => void>(),
+	);
+	const acceptAllCallbacks = useRef(new Set<() => void>());
+	const rejectAllCallbacks = useRef(new Set<() => void>());
+
+	const registerOnConsentChange = useCallback(
+		(cb: (consent: Record<string, boolean>) => void) => {
+			consentChangeCallbacks.current.add(cb);
+			return () => {
+				consentChangeCallbacks.current.delete(cb);
+			};
+		},
+		[],
+	);
+
+	const registerOnAcceptAll = useCallback((cb: () => void) => {
+		acceptAllCallbacks.current.add(cb);
+		return () => {
+			acceptAllCallbacks.current.delete(cb);
+		};
+	}, []);
+
+	const registerOnRejectAll = useCallback((cb: () => void) => {
+		rejectAllCallbacks.current.add(cb);
+		return () => {
+			rejectAllCallbacks.current.delete(cb);
+		};
+	}, []);
+
 	const setConsent = (scope: string, accepted: boolean) => {
 		setConsentState((prev) => ({
 			...prev,
@@ -101,6 +138,7 @@ export function CookieProvider({ scopes, children }: CookieProviderProps) {
 			Object.fromEntries(normalizedScopes.map((s) => [s.scope, true])),
 		);
 		setBannerOpen(false);
+		for (const cb of acceptAllCallbacks.current) cb();
 	};
 
 	const rejectAll = () => {
@@ -108,6 +146,7 @@ export function CookieProvider({ scopes, children }: CookieProviderProps) {
 			Object.fromEntries(normalizedScopes.map((s) => [s.scope, false])),
 		);
 		setBannerOpen(false);
+		for (const cb of rejectAllCallbacks.current) cb();
 	};
 
 	useEffect(() => {
@@ -116,6 +155,15 @@ export function CookieProvider({ scopes, children }: CookieProviderProps) {
 			maxAge: DEFAULT_MAX_AGE,
 			secure: true,
 		});
+	}, [consent]);
+
+	const isFirstRender = useRef(true);
+	useEffect(() => {
+		if (isFirstRender.current) {
+			isFirstRender.current = false;
+			return;
+		}
+		for (const cb of consentChangeCallbacks.current) cb(consent);
 	}, [consent]);
 
 	return (
@@ -128,6 +176,9 @@ export function CookieProvider({ scopes, children }: CookieProviderProps) {
 				setBannerOpen,
 				acceptAll,
 				rejectAll,
+				registerOnConsentChange,
+				registerOnAcceptAll,
+				registerOnRejectAll,
 			}}
 		>
 			{children}
