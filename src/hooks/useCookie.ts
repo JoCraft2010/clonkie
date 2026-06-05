@@ -39,11 +39,12 @@ export function useCookie<T>(
 
 	useEffect(() => {
 		if (!hasConsent) {
+			deleteCookie(cookieName, scopeConfig?.path ?? "/");
 			setValue(undefined);
 			return;
 		}
 		setValue(deserialize<T>(getCookie(cookieName)));
-	}, [cookieName, hasConsent]);
+	}, [cookieName, hasConsent, scopeConfig]);
 
 	const setCookieValue = useCallback(
 		(newValue: T | undefined): boolean => {
