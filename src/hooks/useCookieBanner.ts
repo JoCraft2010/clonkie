@@ -14,15 +14,7 @@ export function useCookieBanner() {
 	}, [context?.isBannerOpen]);
 
 	if (context === null)
-		return {
-			isOpen: false,
-			setBannerOpen: (_open: boolean) => {},
-			consent: {} as Record<string, boolean>,
-			setConsent: (_scope: string, _accepted: boolean) => {},
-			acceptAll: () => {},
-			rejectAll: () => {},
-			applySelection: () => {},
-		};
+		throw new Error("useCookieBanner must be used within a CookieProvider");
 
 	const setConsent = (scope: string, accepted: boolean) => {
 		setDraftConsent((prev) => ({
