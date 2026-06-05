@@ -93,6 +93,7 @@ export function CookieProvider({ scopes, children }: CookieProviderProps) {
 		setCookie(CONSENT_COOKIE, JSON.stringify(consent), {
 			path: DEFAULT_PATH,
 			maxAge: DEFAULT_MAX_AGE,
+			secure: true,
 		});
 	}, [consent]);
 
