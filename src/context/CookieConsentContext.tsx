@@ -9,7 +9,7 @@ import { getCookie, setCookie } from "../utils/cookie";
 
 export interface CookieConsentContextValue {
 	consent: Record<string, boolean>;
-	scopes: Required<CookieScope>[];
+	scopes: NormalizedCookieScope[];
 	setConsent: (scope: string, accepted: boolean) => void;
 	isBannerOpen: boolean;
 	setBannerOpen: (open: boolean) => void;
@@ -25,6 +25,18 @@ export interface CookieScope {
 	scope: string;
 	path?: string;
 	maxAge?: number;
+	domain?: string;
+	secure?: boolean;
+	sameSite?: "Strict" | "Lax" | "None";
+}
+
+export interface NormalizedCookieScope {
+	scope: string;
+	path: string;
+	maxAge: number;
+	domain?: string;
+	secure: boolean;
+	sameSite: "Strict" | "Lax" | "None";
 }
 
 export const CookieConsentContext =
@@ -37,14 +49,23 @@ interface CookieProviderProps {
 
 export function CookieProvider({ scopes, children }: CookieProviderProps) {
 	const normalizedScopes = useMemo(() => {
-		const normalized = scopes.map((s) => ({
-			...s,
+		const normalized: NormalizedCookieScope[] = scopes.map((s) => ({
+			scope: s.scope,
 			path: s.path ?? DEFAULT_PATH,
 			maxAge: s.maxAge ?? DEFAULT_MAX_AGE,
+			domain: s.domain,
+			secure: s.secure ?? false,
+			sameSite: s.sameSite ?? "Lax",
 		}));
 		if (scopes.some((s) => s.scope === "essential")) return normalized;
 		return [
-			{ scope: "essential", path: DEFAULT_PATH, maxAge: DEFAULT_MAX_AGE },
+			{
+				scope: "essential",
+				path: DEFAULT_PATH,
+				maxAge: DEFAULT_MAX_AGE,
+				secure: false,
+				sameSite: "Lax" as const,
+			},
 			...normalized,
 		];
 	}, [scopes]);

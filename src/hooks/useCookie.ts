@@ -39,7 +39,12 @@ export function useCookie<T>(
 
 	useEffect(() => {
 		if (!hasConsent) {
-			deleteCookie(cookieName, { path: scopeConfig?.path ?? "/" });
+			deleteCookie(cookieName, {
+				path: scopeConfig?.path ?? "/",
+				domain: scopeConfig?.domain,
+				secure: scopeConfig?.secure,
+				sameSite: scopeConfig?.sameSite,
+			});
 			setValue(undefined);
 			return;
 		}
@@ -50,13 +55,21 @@ export function useCookie<T>(
 		(newValue: T | undefined): boolean => {
 			if (!hasConsent || !scopeConfig) return false;
 			if (newValue === undefined) {
-				deleteCookie(cookieName, { path: scopeConfig.path });
+				deleteCookie(cookieName, {
+					path: scopeConfig.path,
+					domain: scopeConfig.domain,
+					secure: scopeConfig.secure,
+					sameSite: scopeConfig.sameSite,
+				});
 				setValue(undefined);
 				return true;
 			}
 			setCookie(cookieName, serialize(newValue), {
 				path: scopeConfig.path,
 				maxAge: scopeConfig.maxAge,
+				domain: scopeConfig.domain,
+				secure: scopeConfig.secure,
+				sameSite: scopeConfig.sameSite,
 			});
 			setValue(newValue);
 			return true;
