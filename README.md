@@ -175,3 +175,7 @@ function ConsentLogger() {
   return null;
 }
 ```
+
+## License
+
+This project is licensed under MPL-2.0. [Read the full License here](./LICENSE)
