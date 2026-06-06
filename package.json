@@ -1,5 +1,5 @@
 {
-  "name": "clonkie",
+  "name": "@jocraft2010/clonkie",
   "version": "0.1.0",
   "private": false,
   "description": "A React library for managing cookies and consent",
