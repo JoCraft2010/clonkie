@@ -3,6 +3,27 @@
   "version": "0.0.0",
   "private": false,
   "description": "A React library for managing cookies and consent",
+  "license": "MPL-2.0",
+  "author": {
+    "name": "JoCraft2010",
+    "url": "https://github.com/JoCraft2010"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JoCraft2010/clonkie.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JoCraft2010/clonkie/issues"
+  },
+  "homepage": "https://github.com/JoCraft2010/clonkie#readme",
+  "keywords": [
+    "react",
+    "cookies",
+    "consent",
+    "cookie-consent",
+    "react-hooks"
+  ],
+  "sideEffects": false,
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -14,8 +35,7 @@
     }
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
     "build": "tsup src/index.ts --dts --format esm,cjs",
