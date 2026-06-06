@@ -1,6 +1,6 @@
 {
   "name": "clonkie",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": false,
   "description": "A React library for managing cookies and consent",
   "license": "MPL-2.0",
