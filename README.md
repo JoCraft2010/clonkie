@@ -1,8 +1,8 @@
 # clonkie
 
-[![npm version](https://badge.fury.io/js/clonkie.svg)](https://www.npmjs.com/package/clonkie)
-[![bundle size](https://badgen.net/bundlephobia/min/clonkie)](https://bundlephobia.com/package/clonkie)
-[![peer dependencies](https://badgen.net/bundlephobia/dependency-count/clonkie)](https://www.npmjs.com/package/clonkie)
+[![npm version](https://badgen.net/npm/v/@jocraft2010/clonkie)](https://www.npmjs.com/package/@jocraft2010/clonkie)
+[![bundle size](https://badgen.net/bundlephobia/min/@jocraft2010/clonkie)](https://bundlephobia.com/package/@jocraft2010/clonkie)
+[![peer dependencies](https://badgen.net/bundlephobia/dependency-count/@jocraft2010/clonkie)](https://www.npmjs.com/package/@jocraft2010/clonkie)
 
 A lightweight React library for managing cookies and consent.
 
