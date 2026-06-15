@@ -1,10 +1,6 @@
-# clonkie
+# Clonkie
 
-[![npm version](https://badgen.net/npm/v/@jocraft2010/clonkie)](https://www.npmjs.com/package/@jocraft2010/clonkie)
-[![bundle size](https://badgen.net/bundlephobia/min/@jocraft2010/clonkie)](https://bundlephobia.com/package/@jocraft2010/clonkie)
-[![peer dependencies](https://badgen.net/bundlephobia/dependency-count/@jocraft2010/clonkie)](https://www.npmjs.com/package/@jocraft2010/clonkie)
-
-A lightweight React library for managing cookies and consent.
+A lightweight React library for managing cookies and consent—zero dependencies, zero bloat, full GDPR compliance.
 
 ## Quick start
 
