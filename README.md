@@ -44,10 +44,10 @@ function Banner() {
 ## Installation
 
 ```sh
-npm install clonkie
-yarn add clonkie
-pnpm add clonkie
-bun add clonkie
+npm install @jocraft2010/clonkie
+yarn add @jocraft2010/clonkie
+pnpm add @jocraft2010/clonkie
+bun add @jocraft2010/clonkie
 ```
 
 **Peer dependencies:** `react` ^18.0.0 || ^19.0.0. Make sure these are installed in your project.
