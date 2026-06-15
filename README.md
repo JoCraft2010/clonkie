@@ -1,6 +1,9 @@
 # Clonkie
 
-A lightweight React library for managing cookies and consent—zero dependencies, zero bloat, full GDPR compliance.
+A lightweight React library for managing cookies and consent—zero dependencies, zero bloat.
+
+> [!WARNING]
+> Using this library does not automatically make your application GDPR-compliant. It is your responsibility as a developer to implement a compliant cookie consent banner that meets the requirements of applicable data protection laws.
 
 ## Quick start
 
