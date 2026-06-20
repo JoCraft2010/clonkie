@@ -8,7 +8,7 @@ A lightweight React library for managing cookies and consent—zero dependencies
 ## Quick start
 
 ```tsx
-import { CookieProvider, useConsent, useCookie, useCookieBanner } from "clonkie";
+import { CookieProvider, useConsent, useCookie, useCookieBanner } from "@jocraft2010/clonkie";
 
 const SCOPES = [{ scope: "analytics" }, { scope: "marketing" }];
 
